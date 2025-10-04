@@ -1,17 +1,17 @@
-// routes/userRoutes.js
-const express = require('express');
-const router = express.Router();
-const { 
-  getUserProfile, 
-  updateProfile, 
-  toggleSavePrompt, 
-  getSavedPrompts 
-} = require('../controllers/userController');
-const { protect } = require('../middleware/authMiddleware');
+import express from 'express';
+import { 
+  getUserProfile,
+  updateProfile,
+  toggleSavePrompt,
+  getSavedPrompts
+} from '../controllers/user.controllers.js';
+import { protect } from '../middlewares/auth.middlewares.js';
 
-router.get('/saved', protect, getSavedPrompts);
+const router = express.Router();
+
+router.get('/:id', getUserProfile);
 router.put('/profile', protect, updateProfile);
 router.post('/save/:promptId', protect, toggleSavePrompt);
-router.get('/:id', getUserProfile);
+router.get('/saved', protect, getSavedPrompts);
 
-module.exports = router;
+export default router;

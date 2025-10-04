@@ -1,7 +1,5 @@
-// routes/promptRoutes.js
-const express = require('express');
-const router = express.Router();
-const { 
+import express from 'express';
+import { 
   createPrompt,
   getAllPrompts,
   getPrompt,
@@ -9,8 +7,10 @@ const {
   deletePrompt,
   toggleLike,
   getMyPrompts
-} = require('../controllers/promptController');
-const { protect } = require('../middleware/authMiddleware');
+} from '../controllers/prompt.controllers.js';
+import { protect } from '../middlewares/auth.middlewares.js';
+
+const router = express.Router();
 
 router.route('/')
   .get(getAllPrompts)
@@ -25,5 +25,4 @@ router.route('/:id')
 
 router.post('/:id/like', protect, toggleLike);
 
-module.exports = router;
-const express = require('express');
+export default router;

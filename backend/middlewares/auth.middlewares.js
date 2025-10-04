@@ -1,8 +1,7 @@
-// middleware/authMiddleware.js
-const jwt = require('jsonwebtoken');
-const User = require('../modals/user.modals');
+import jwt from 'jsonwebtoken';
+import User from '../modals/user.modals.js';
 
-exports.protect = async (req, res, next) => {
+export const protect = async (req, res, next) => {
   let token;
 
   if (

@@ -1,11 +1,10 @@
-// controllers/userController.js
-const User = require('../modals/user.modals');
-const Prompt = require('../modals/prompt.modals');
+import User from '../modals/user.modals.js';
+import Prompt from '../modals/prompt.modals.js';
 
 // @desc    Get user profile
 // @route   GET /api/users/:id
 // @access  Public
-exports.getUserProfile = async (req, res) => {
+export const getUserProfile = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select('-password');
     
@@ -38,7 +37,7 @@ exports.getUserProfile = async (req, res) => {
 // @desc    Update user profile
 // @route   PUT /api/users/profile
 // @access  Private
-exports.updateProfile = async (req, res) => {
+export const updateProfile = async (req, res) => {
   try {
     const { username, bio, profilePicture } = req.body;
 
@@ -71,7 +70,7 @@ exports.updateProfile = async (req, res) => {
 // @desc    Save/Unsave prompt
 // @route   POST /api/users/save/:promptId
 // @access  Private
-exports.toggleSavePrompt = async (req, res) => {
+export const toggleSavePrompt = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     const promptId = req.params.promptId;
@@ -106,7 +105,7 @@ exports.toggleSavePrompt = async (req, res) => {
 // @desc    Get saved prompts
 // @route   GET /api/users/saved
 // @access  Private
-exports.getSavedPrompts = async (req, res) => {
+export const getSavedPrompts = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).populate({
       path: 'savedPrompts',

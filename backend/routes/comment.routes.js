@@ -1,12 +1,12 @@
-// routes/commentRoutes.js
-const express = require('express');
+import express from 'express';
+import { 
+  createComment,
+  getComments,
+  deleteComment
+} from '../controllers/comments.controllers.js';
+import { protect } from '../middlewares/auth.middlewares.js';
+
 const router = express.Router();
-const { 
-  createComment, 
-  getComments, 
-  deleteComment 
-} = require('../controllers/commentController');
-const { protect } = require('../middleware/authMiddleware');
 
 router.route('/:promptId')
   .get(getComments)
@@ -14,4 +14,4 @@ router.route('/:promptId')
 
 router.delete('/:id', protect, deleteComment);
 
-module.exports = router;
+export default router;

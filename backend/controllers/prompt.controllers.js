@@ -1,10 +1,9 @@
-// controllers/promptController.js
-const Prompt = require('../modals/prompt.modals');
+import Prompt from '../modals/prompt.modals.js';
 
 // @desc    Create new prompt
 // @route   POST /api/prompts
 // @access  Private
-exports.createPrompt = async (req, res) => {
+export const createPrompt = async (req, res) => {
   try {
     const { title, promptText, description, category, tags } = req.body;
 
@@ -35,7 +34,7 @@ exports.createPrompt = async (req, res) => {
 // @desc    Get all prompts (with filters)
 // @route   GET /api/prompts
 // @access  Public
-exports.getAllPrompts = async (req, res) => {
+export const getAllPrompts = async (req, res) => {
   try {
     const { category, search, sort } = req.query;
     let query = { isPublic: true };
@@ -83,7 +82,7 @@ exports.getAllPrompts = async (req, res) => {
 // @desc    Get single prompt
 // @route   GET /api/prompts/:id
 // @access  Public
-exports.getPrompt = async (req, res) => {
+export const getPrompt = async (req, res) => {
   try {
     const prompt = await Prompt.findById(req.params.id)
       .populate('author', 'username profilePicture bio')
@@ -114,7 +113,7 @@ exports.getPrompt = async (req, res) => {
 // @desc    Update prompt
 // @route   PUT /api/prompts/:id
 // @access  Private
-exports.updatePrompt = async (req, res) => {
+export const updatePrompt = async (req, res) => {
   try {
     let prompt = await Prompt.findById(req.params.id);
 
@@ -157,7 +156,7 @@ exports.updatePrompt = async (req, res) => {
 // @desc    Delete prompt
 // @route   DELETE /api/prompts/:id
 // @access  Private
-exports.deletePrompt = async (req, res) => {
+export const deletePrompt = async (req, res) => {
   try {
     const prompt = await Prompt.findById(req.params.id);
 
@@ -191,7 +190,7 @@ exports.deletePrompt = async (req, res) => {
 // @desc    Like/Unlike prompt
 // @route   POST /api/prompts/:id/like
 // @access  Private
-exports.toggleLike = async (req, res) => {
+export const toggleLike = async (req, res) => {
   try {
     const prompt = await Prompt.findById(req.params.id);
 
@@ -231,7 +230,7 @@ exports.toggleLike = async (req, res) => {
 // @desc    Get user's own prompts
 // @route   GET /api/prompts/my/prompts
 // @access  Private
-exports.getMyPrompts = async (req, res) => {
+export const getMyPrompts = async (req, res) => {
   try {
     const prompts = await Prompt.find({ author: req.user.id })
       .sort({ createdAt: -1 });

@@ -1,6 +1,5 @@
-// controllers/authController.js
-const User = require('../modals/user.modals');
-const jwt = require('jsonwebtoken');
+import User from '../modals/user.modals.js';
+import jwt from 'jsonwebtoken';
 
 // Generate JWT Token
 const generateToken = (id) => {
@@ -12,7 +11,7 @@ const generateToken = (id) => {
 // @desc    Register new user
 // @route   POST /api/auth/register
 // @access  Public
-exports.register = async (req, res) => {
+export const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
@@ -52,7 +51,7 @@ exports.register = async (req, res) => {
 // @desc    Login user
 // @route   POST /api/auth/login
 // @access  Public
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -93,7 +92,7 @@ exports.login = async (req, res) => {
 // @desc    Get current user
 // @route   GET /api/auth/me
 // @access  Private
-exports.getMe = async (req, res) => {
+export const getMe = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).populate('savedPrompts');
     
