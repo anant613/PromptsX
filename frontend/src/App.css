@@ -2,16 +2,435 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles */
-.animate-spin {
+/* Global Dark Theme */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #6366f1 #1f2937;
+}
+
+body {
+  background: #000000;
+  color: #ffffff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Spline-inspired 3D Background */
+.spline-3d-bg {
+  background: radial-gradient(ellipse at center, #1a1a2e 0%, #000000 70%);
+}
+
+/* 3D Floating Spheres */
+.sphere {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 0, 128, 0.3), rgba(121, 40, 202, 0.1));
+  filter: blur(40px);
+  animation: float3d 8s ease-in-out infinite;
+}
+
+.sphere-1 {
+  width: 300px;
+  height: 300px;
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.sphere-2 {
+  width: 200px;
+  height: 200px;
+  top: 60%;
+  right: 20%;
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.3), rgba(0, 112, 243, 0.1));
+  animation-delay: -2s;
+}
+
+.sphere-3 {
+  width: 150px;
+  height: 150px;
+  bottom: 20%;
+  left: 60%;
+  background: linear-gradient(135deg, rgba(255, 0, 128, 0.2), rgba(121, 40, 202, 0.05));
+  animation-delay: -4s;
+}
+
+.sphere-4 {
+  width: 250px;
+  height: 250px;
+  top: 30%;
+  left: 70%;
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 112, 243, 0.05));
+  animation-delay: -6s;
+}
+
+@keyframes float3d {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px) scale(1);
+    opacity: 0.7;
+  }
+  33% {
+    transform: translateY(-30px) translateX(20px) scale(1.1);
+    opacity: 0.9;
+  }
+  66% {
+    transform: translateY(20px) translateX(-15px) scale(0.9);
+    opacity: 0.5;
+  }
+}
+
+/* Mesh Grid Lines */
+.mesh-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
+}
+
+.mesh-line {
+  animation: meshFlow 6s ease-in-out infinite;
+}
+
+@keyframes meshFlow {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Spline Text Effect */
+.spline-text {
+  background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #ff0080 0%, #7928ca 50%, #0070f3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Spline Buttons */
+.spline-button {
+  display: inline-flex;
+  align-items: center;
+  padding: 16px 32px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.spline-button.primary {
+  background: linear-gradient(135deg, #ff0080 0%, #7928ca 100%);
+  color: white;
+  box-shadow: 0 8px 32px rgba(255, 0, 128, 0.3);
+}
+
+.spline-button.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(255, 0, 128, 0.4);
+}
+
+.spline-button.secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.spline-button.secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Spline Cards */
+.spline-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 32px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.spline-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-4px);
+}
+
+.spline-card-animate {
+  animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+@keyframes slideUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Spline Inputs */
+.spline-input-group {
+  position: relative;
+}
+
+.spline-input {
+  width: 100%;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: white;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.spline-input:focus {
+  outline: none;
+  border-color: #ff0080;
+  box-shadow: 0 0 0 3px rgba(255, 0, 128, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.spline-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Spline Loader */
+.spline-loader {
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top: 3px solid #ff0080;
+  border-radius: 50%;
   animation: spin 1s linear infinite;
+  margin: 0 auto;
 }
 
 @keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Dark Theme Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #ff0080, #7928ca);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #7928ca, #0070f3);
+}
+
+/* Glassmorphism Effects */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Hover Effects */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+}
+
+/* Gradient Animations */
+.gradient-animate {
+  background-size: 200% 200%;
+  animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Fade Animations */
+.fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
+    transform: translateY(20px);
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Spline PromptCard Styles */
+.spline-prompt-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.spline-prompt-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 0, 128, 0.3);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.spline-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, rgba(255, 0, 128, 0.2), rgba(121, 40, 202, 0.2));
+  border: 1px solid rgba(255, 0, 128, 0.3);
+  border-radius: 20px;
+  color: #ff0080;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.spline-prompt-content {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 16px;
+  backdrop-filter: blur(10px);
+}
+
+.spline-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.spline-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.spline-action-btn:hover {
+  background: rgba(255, 0, 128, 0.1);
+  border-color: rgba(255, 0, 128, 0.3);
+  color: #ff0080;
+  transform: scale(1.1);
+}
+
+.spline-action-btn.bookmarked {
+  background: rgba(255, 193, 7, 0.1);
+  border-color: rgba(255, 193, 7, 0.3);
+  color: #ffc107;
+}
+
+.spline-notification {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  background: rgba(34, 197, 94, 0.9);
+  border-radius: 20px;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  animation: slideInRight 0.3s ease-out;
+  z-index: 10;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.spline-hover-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 0, 128, 0.1) 0%, transparent 70%);
+  border-radius: 16px;
+  pointer-events: none;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .spline-text {
+    font-size: 3rem;
+  }
+  
+  .spline-button {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+  
+  .spline-card {
+    padding: 24px;
+  }
+  
+  .spline-prompt-card {
+    padding: 20px;
   }
 }
