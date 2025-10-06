@@ -1,5 +1,5 @@
-import User from '../modals/user.modals.js';
-import jwt from 'jsonwebtoken';
+const User = require('../modals/user.modals.js');
+const jwt = require('jsonwebtoken');
 
 // Generate JWT Token
 const generateToken = (id) => {
@@ -11,7 +11,7 @@ const generateToken = (id) => {
 // @desc    Register new user
 // @route   POST /api/auth/register
 // @access  Public
-export const register = async (req, res) => {
+const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
@@ -51,7 +51,7 @@ export const register = async (req, res) => {
 // @desc    Login user
 // @route   POST /api/auth/login
 // @access  Public
-export const login = async (req, res) => {
+const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -92,7 +92,7 @@ export const login = async (req, res) => {
 // @desc    Get current user
 // @route   GET /api/auth/me
 // @access  Private
-export const getMe = async (req, res) => {
+const getMe = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).populate('savedPrompts');
     
@@ -107,3 +107,5 @@ export const getMe = async (req, res) => {
     });
   }
 };
+
+module.exports = { register, login, getMe };
