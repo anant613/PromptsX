@@ -1,11 +1,11 @@
-import express from "express";
-import dotenv from "dotenv";
-import cors from "cors";
-import connectDB from "./config/db.js";
-import authRoutes from "./routes/auth.routes.js";
-import promptRoutes from "./routes/prompt.routes.js";
-import userRoutes from "./routes/user.routes.js";
-import commentRoutes from "./routes/comment.routes.js";
+const express = require('express');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const connectDB = require('./config/db.js');
+const authRoutes = require('./routes/auth.routes.js');
+const promptRoutes = require('./routes/prompt.routes.js');
+const userRoutes = require('./routes/user.routes.js');
+const commentRoutes = require('./routes/comment.routes.js');
 
 dotenv.config();
 connectDB();
