@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: promptsx-backend
+    env: node
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && node index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        value: mongodb+srv://PromptxS:Anant123456@cluster0.vrioyiv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - key: JWT_SECRET
+        value: your-secret-key-production-change-this
+      - key: PORT
+        value: 10000
