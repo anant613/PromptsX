@@ -5,11 +5,13 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "build": "npm install"
+    "build": "npm install --production=false",
+    "render-postbuild": "npm install"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "debug": "^4.3.4",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
