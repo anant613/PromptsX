@@ -1,11 +1,11 @@
-import express from 'express';
-import { 
+const express = require('express');
+const { 
   getUserProfile,
   updateProfile,
   toggleSavePrompt,
   getSavedPrompts
-} from '../controllers/user.controllers.js';
-import { protect } from '../middlewares/auth.middlewares.js';
+} = require('../controllers/user.controllers.js');
+const { protect } = require('../middlewares/auth.middlewares.js');
 
 const router = express.Router();
 
@@ -14,4 +14,4 @@ router.put('/profile', protect, updateProfile);
 router.post('/save/:promptId', protect, toggleSavePrompt);
 router.get('/saved', protect, getSavedPrompts);
 
-export default router;
+module.exports = router;

@@ -1,10 +1,10 @@
-import express from 'express';
-import { 
+const express = require('express');
+const { 
   createComment,
   getComments,
   deleteComment
-} from '../controllers/comments.controllers.js';
-import { protect } from '../middlewares/auth.middlewares.js';
+} = require('../controllers/comments.controllers.js');
+const { protect } = require('../middlewares/auth.middlewares.js');
 
 const router = express.Router();
 
@@ -14,4 +14,4 @@ router.route('/:promptId')
 
 router.delete('/:id', protect, deleteComment);
 
-export default router;
+module.exports = router;

@@ -1,5 +1,5 @@
-import express from 'express';
-import { 
+const express = require('express');
+const { 
   createPrompt,
   getAllPrompts,
   getPrompt,
@@ -7,8 +7,8 @@ import {
   deletePrompt,
   toggleLike,
   getMyPrompts
-} from '../controllers/prompt.controllers.js';
-import { protect } from '../middlewares/auth.middlewares.js';
+} = require('../controllers/prompt.controllers.js');
+const { protect } = require('../middlewares/auth.middlewares.js');
 
 const router = express.Router();
 
@@ -25,4 +25,4 @@ router.route('/:id')
 
 router.post('/:id/like', protect, toggleLike);
 
-export default router;
+module.exports = router;

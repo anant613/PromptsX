@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const promptSchema = new mongoose.Schema({
   title: {
@@ -66,4 +66,4 @@ promptSchema.virtual('likeCount').get(function() {
   return this.likes.length;
 });
 
-export default mongoose.model('Prompt', promptSchema);
+module.exports = mongoose.model('Prompt', promptSchema);
