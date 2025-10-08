@@ -14,13 +14,8 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: [
-    'http://localhost:3000', 
-    'https://promptsx.vercel.app', 
-    'https://promptsx-git-master-anant613s-projects.vercel.app',
-    'https://promptsx-anant613s-projects.vercel.app'
-  ],
-  credentials: true
+  origin: '*',
+  credentials: false
 }));
 app.use(express.json());
 
