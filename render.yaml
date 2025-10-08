@@ -2,7 +2,7 @@ services:
   - type: web
     name: promptsx-backend
     env: node
-    buildCommand: cd backend && npm install
+    buildCommand: cd backend && rm -rf node_modules package-lock.json && npm cache clean --force && npm install
     startCommand: cd backend && node index.js
     envVars:
       - key: NODE_ENV
