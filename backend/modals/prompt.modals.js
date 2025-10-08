@@ -55,13 +55,11 @@ const promptSchema = new mongoose.Schema({
   }
 });
 
-// Update 'updatedAt' on save
 promptSchema.pre('save', function(next) {
   this.updatedAt = Date.now();
   next();
 });
 
-// Virtual for like count
 promptSchema.virtual('likeCount').get(function() {
   return this.likes.length;
 });

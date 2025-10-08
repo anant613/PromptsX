@@ -1,9 +1,6 @@
-import Prompt from '../modals/prompt.modals.js';
+const Prompt = require('../modals/prompt.modals.js');
 
-// @desc    Create new prompt
-// @route   POST /api/prompts
-// @access  Private
-export const createPrompt = async (req, res) => {
+const createPrompt = async (req, res) => {
   try {
     const { title, promptText, description, category, tags } = req.body;
 
@@ -31,20 +28,15 @@ export const createPrompt = async (req, res) => {
   }
 };
 
-// @desc    Get all prompts (with filters)
-// @route   GET /api/prompts
-// @access  Public
-export const getAllPrompts = async (req, res) => {
+const getAllPrompts = async (req, res) => {
   try {
     const { category, search, sort } = req.query;
     let query = { isPublic: true };
 
-    // Filter by category
     if (category) {
       query.category = category;
     }
 
-    // Search in title, description, and tags
     if (search) {
       query.$or = [
         { title: { $regex: search, $options: 'i' } },
@@ -53,8 +45,7 @@ export const getAllPrompts = async (req, res) => {
       ];
     }
 
-    // Sort options
-    let sortOption = { createdAt: -1 }; // Default: newest first
+    let sortOption = { createdAt: -1 };
     if (sort === 'popular') {
       sortOption = { views: -1 };
     } else if (sort === 'liked') {
@@ -79,10 +70,7 @@ export const getAllPrompts = async (req, res) => {
   }
 };
 
-// @desc    Get single prompt
-// @route   GET /api/prompts/:id
-// @access  Public
-export const getPrompt = async (req, res) => {
+const getPrompt = async (req, res) => {
   try {
     const prompt = await Prompt.findById(req.params.id)
       .populate('author', 'username profilePicture bio')
@@ -94,7 +82,6 @@ export const getPrompt = async (req, res) => {
       });
     }
 
-    // Increment views
     prompt.views += 1;
     await prompt.save();
 
@@ -110,10 +97,7 @@ export const getPrompt = async (req, res) => {
   }
 };
 
-// @desc    Update prompt
-// @route   PUT /api/prompts/:id
-// @access  Private
-export const updatePrompt = async (req, res) => {
+const updatePrompt = async (req, res) => {
   try {
     let prompt = await Prompt.findById(req.params.id);
 
@@ -123,7 +107,6 @@ export const updatePrompt = async (req, res) => {
       });
     }
 
-    // Check ownership
     if (prompt.author.toString() !== req.user.id) {
       return res.status(403).json({ 
         message: 'Not authorized to update this prompt' 
@@ -153,10 +136,7 @@ export const updatePrompt = async (req, res) => {
   }
 };
 
-// @desc    Delete prompt
-// @route   DELETE /api/prompts/:id
-// @access  Private
-export const deletePrompt = async (req, res) => {
+const deletePrompt = async (req, res) => {
   try {
     const prompt = await Prompt.findById(req.params.id);
 
@@ -166,7 +146,6 @@ export const deletePrompt = async (req, res) => {
       });
     }
 
-    // Check ownership
     if (prompt.author.toString() !== req.user.id) {
       return res.status(403).json({ 
         message: 'Not authorized to delete this prompt' 
@@ -187,10 +166,7 @@ export const deletePrompt = async (req, res) => {
   }
 };
 
-// @desc    Like/Unlike prompt
-// @route   POST /api/prompts/:id/like
-// @access  Private
-export const toggleLike = async (req, res) => {
+const toggleLike = async (req, res) => {
   try {
     const prompt = await Prompt.findById(req.params.id);
 
@@ -203,10 +179,8 @@ export const toggleLike = async (req, res) => {
     const index = prompt.likes.indexOf(req.user.id);
 
     if (index > -1) {
-      // Unlike
       prompt.likes.splice(index, 1);
     } else {
-      // Like
       prompt.likes.push(req.user.id);
     }
 
@@ -227,10 +201,7 @@ export const toggleLike = async (req, res) => {
   }
 };
 
-// @desc    Get user's own prompts
-// @route   GET /api/prompts/my/prompts
-// @access  Private
-export const getMyPrompts = async (req, res) => {
+const getMyPrompts = async (req, res) => {
   try {
     const prompts = await Prompt.find({ author: req.user.id })
       .sort({ createdAt: -1 });
@@ -246,4 +217,14 @@ export const getMyPrompts = async (req, res) => {
       message: error.message 
     });
   }
+};
+
+module.exports = {
+  createPrompt,
+  getAllPrompts,
+  getPrompt,
+  updatePrompt,
+  deletePrompt,
+  toggleLike,
+  getMyPrompts
 };
