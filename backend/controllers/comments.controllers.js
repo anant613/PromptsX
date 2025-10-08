@@ -1,15 +1,11 @@
-import Comment from '../modals/comment.modals.js';
-import Prompt from '../modals/prompt.modals.js';
+const Comment = require('../modals/comment.modals.js');
+const Prompt = require('../modals/prompt.modals.js');
 
-// @desc    Create comment
-// @route   POST /api/comments/:promptId
-// @access  Private
-export const createComment = async (req, res) => {
+const createComment = async (req, res) => {
   try {
     const { commentText } = req.body;
     const promptId = req.params.promptId;
 
-    // Check if prompt exists
     const prompt = await Prompt.findById(promptId);
     if (!prompt) {
       return res.status(404).json({ 
@@ -38,10 +34,7 @@ export const createComment = async (req, res) => {
   }
 };
 
-// @desc    Get comments for a prompt
-// @route   GET /api/comments/:promptId
-// @access  Public
-export const getComments = async (req, res) => {
+const getComments = async (req, res) => {
   try {
     const comments = await Comment.find({ prompt: req.params.promptId })
       .populate('user', 'username profilePicture')
@@ -60,10 +53,7 @@ export const getComments = async (req, res) => {
   }
 };
 
-// @desc    Delete comment
-// @route   DELETE /api/comments/:id
-// @access  Private
-export const deleteComment = async (req, res) => {
+const deleteComment = async (req, res) => {
   try {
     const comment = await Comment.findById(req.params.id);
 
@@ -73,7 +63,6 @@ export const deleteComment = async (req, res) => {
       });
     }
 
-    // Check ownership
     if (comment.user.toString() !== req.user.id) {
       return res.status(403).json({ 
         message: 'Not authorized to delete this comment' 
@@ -92,4 +81,10 @@ export const deleteComment = async (req, res) => {
       message: error.message 
     });
   }
+};
+
+module.exports = {
+  createComment,
+  getComments,
+  deleteComment
 };
