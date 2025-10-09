@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 
@@ -9,175 +8,238 @@ const Navbar = ({ currentPage, setCurrentPage }) => {
 
   const navLinks = [
     { label: "Home", page: "home" },
-    ...(user
-      ? [
-          { label: "Create", page: "create" },
-          { label: "My Prompts", page: "my-prompts" },
-        ]
-      : []),
+    ...(user ? [
+      { label: "Create", page: "create" },
+      { label: "My Prompts", page: "my-prompts" },
+    ] : []),
   ];
 
   return (
-    <nav className="bg-black/90 backdrop-blur-xl shadow-2xl border-b border-purple-500/20 fixed w-full top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          {/* Logo */}
-          <motion.h1
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-2xl font-bold bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 bg-clip-text text-transparent cursor-pointer"
+    <nav className="navbar">
+      <div className="navbar-content">
+        <h1 className="logo" onClick={() => setCurrentPage("home")} style={{cursor: 'pointer'}}>
+          PromptsX
+        </h1>
+
+        {/* Desktop Navigation */}
+        <div style={{display: 'flex', alignItems: 'center', gap: '1.5rem'}}>
+          <button
             onClick={() => setCurrentPage("home")}
+            style={{
+              background: currentPage === 'home' ? 'rgba(255,107,53,0.2)' : 'transparent',
+              border: '1px solid rgba(255,255,255,0.2)',
+              color: currentPage === 'home' ? '#ff6b35' : 'white',
+              padding: '0.5rem 1rem',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontSize: '0.9rem',
+              fontWeight: '500',
+              transition: 'all 0.3s ease'
+            }}
           >
-            Prompt Share Hub
-          </motion.h1>
-
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-6">
-            {navLinks.map(({ label, page }) => (
+            Home
+          </button>
+          
+          {user && (
+            <>
               <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                className={`relative px-3 py-2 text-sm font-medium transition-colors duration-300 ${
-                  currentPage === page
-                    ? "text-purple-400"
-                    : "text-gray-300 hover:text-white"
-                }`}
+                onClick={() => setCurrentPage("create")}
+                style={{
+                  background: currentPage === 'create' ? 'rgba(255,107,53,0.2)' : 'transparent',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  color: currentPage === 'create' ? '#ff6b35' : 'white',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '0.9rem',
+                  fontWeight: '500',
+                  transition: 'all 0.3s ease'
+                }}
               >
-                {label}
-                {currentPage === page && (
-                  <motion.div
-                    layoutId="underline"
-                    className="absolute left-0 right-0 -bottom-1 h-0.5 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full"
-                  />
-                )}
+                Create
               </button>
-            ))}
+              
+              <button
+                onClick={() => setCurrentPage("my-prompts")}
+                style={{
+                  background: currentPage === 'my-prompts' ? 'rgba(255,107,53,0.2)' : 'transparent',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  color: currentPage === 'my-prompts' ? '#ff6b35' : 'white',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '0.9rem',
+                  fontWeight: '500',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                My Prompts
+              </button>
+            </>
+          )}
 
-            {user ? (
-              <>
-                <div className="flex items-center space-x-3">
-                  <img
-                    src={user.avatar || "/default-avatar.png"}
-                    alt="avatar"
-                    className="w-8 h-8 rounded-full border border-gray-700"
-                  />
-                  <span className="text-gray-300 text-sm">
-                    Hi, {user.username}
-                  </span>
-                </div>
-                <button
-                  onClick={logout}
-                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-all duration-300"
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                <button
-                  onClick={() => setCurrentPage("login")}
-                  className="text-gray-300 hover:text-white px-3 py-2 text-sm font-medium"
-                >
-                  Login
-                </button>
-                <button
-                  onClick={() => setCurrentPage("register")}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-all duration-300"
-                >
-                  Sign Up
-                </button>
-              </>
-            )}
-          </div>
+          {user ? (
+            <>
+              <span style={{color: 'rgba(255,255,255,0.8)', fontSize: '0.9rem', marginLeft: '1rem'}}>Hi, {user.username}</span>
+              <button 
+                onClick={logout}
+                style={{
+                  background: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 100%)',
+                  border: 'none',
+                  color: 'white',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '20px',
+                  cursor: 'pointer',
+                  fontSize: '0.9rem',
+                  fontWeight: '600',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <button 
+                onClick={() => setCurrentPage("login")}
+                style={{
+                  background: 'transparent',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  color: 'white',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '0.9rem',
+                  fontWeight: '500',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Login
+              </button>
+              <button 
+                onClick={() => setCurrentPage("register")}
+                style={{
+                  background: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 100%)',
+                  border: 'none',
+                  color: 'white',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '20px',
+                  cursor: 'pointer',
+                  fontSize: '0.9rem',
+                  fontWeight: '600',
+                  transition: 'all 0.3s ease'
+                }}
+              >
+                Sign Up
+              </button>
+            </>
+          )}
+        </div>
 
-          {/* Mobile Menu Toggle */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="text-gray-300 hover:text-white transition"
-            >
-              {menuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
+        {/* Mobile Menu Toggle */}
+        <div style={{display: 'none'}} className="mobile-menu-toggle">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            style={{
+              background: 'none',
+              border: 'none',
+              color: 'white',
+              cursor: 'pointer'
+            }}
+          >
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden bg-gray-900/95 backdrop-blur-lg border-t border-gray-800"
-          >
-            <div className="px-4 pt-2 pb-3 space-y-2">
-              {navLinks.map(({ label, page }) => (
-                <button
-                  key={page}
-                  onClick={() => {
-                    setCurrentPage(page);
-                    setMenuOpen(false);
-                  }}
-                  className={`block w-full text-left px-3 py-2 rounded-md text-sm font-medium transition ${
-                    currentPage === page
-                      ? "bg-blue-600 text-white"
-                      : "text-gray-300 hover:bg-gray-800"
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
-
-              {user ? (
-                <>
-                  <div className="flex items-center space-x-3 px-3 pt-2">
-                    <img
-                      src={user.avatar || "/default-avatar.png"}
-                      alt="avatar"
-                      className="w-8 h-8 rounded-full border border-gray-700"
-                    />
-                    <span className="text-gray-300 text-sm">
-                      Hi, {user.username}
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => {
-                      logout();
-                      setMenuOpen(false);
-                    }}
-                    className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-all duration-300 mt-2"
-                  >
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    onClick={() => {
-                      setCurrentPage("login");
-                      setMenuOpen(false);
-                    }}
-                    className="w-full text-gray-300 hover:bg-gray-800 px-3 py-2 rounded-md text-sm font-medium"
-                  >
-                    Login
-                  </button>
-                  <button
-                    onClick={() => {
-                      setCurrentPage("register");
-                      setMenuOpen(false);
-                    }}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-all duration-300"
-                  >
-                    Sign Up
-                  </button>
-                </>
-              )}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {menuOpen && (
+        <div style={{
+          position: 'absolute',
+          top: '100%',
+          left: 0,
+          right: 0,
+          background: 'rgba(0,0,0,0.95)',
+          backdropFilter: 'blur(20px)',
+          padding: '1rem',
+          borderTop: '1px solid rgba(255,255,255,0.1)'
+        }}>
+          {navLinks.map(({ label, page }) => (
+            <button
+              key={page}
+              onClick={() => {
+                setCurrentPage(page);
+                setMenuOpen(false);
+              }}
+              style={{
+                display: 'block',
+                width: '100%',
+                background: currentPage === page ? 'rgba(255,107,53,0.1)' : 'none',
+                border: 'none',
+                color: currentPage === page ? '#ff6b35' : 'white',
+                padding: '1rem',
+                textAlign: 'left',
+                cursor: 'pointer',
+                borderRadius: '8px',
+                marginBottom: '0.5rem'
+              }}
+            >
+              {label}
+            </button>
+          ))}
+          
+          {user ? (
+            <>
+              <div style={{padding: '1rem', color: 'rgba(255,255,255,0.8)', borderTop: '1px solid rgba(255,255,255,0.1)', marginTop: '1rem'}}>
+                Hi, {user.username}
+              </div>
+              <button 
+                onClick={() => {
+                  logout();
+                  setMenuOpen(false);
+                }}
+                className="btn-primary" 
+                style={{width: '100%', marginTop: '0.5rem'}}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <button 
+                onClick={() => {
+                  setCurrentPage("login");
+                  setMenuOpen(false);
+                }}
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  background: 'none',
+                  border: 'none',
+                  color: 'white',
+                  padding: '1rem',
+                  textAlign: 'left',
+                  cursor: 'pointer',
+                  borderTop: '1px solid rgba(255,255,255,0.1)',
+                  marginTop: '1rem'
+                }}
+              >
+                Login
+              </button>
+              <button 
+                onClick={() => {
+                  setCurrentPage("register");
+                  setMenuOpen(false);
+                }}
+                className="btn-primary" 
+                style={{width: '100%', marginTop: '0.5rem'}}
+              >
+                Sign Up
+              </button>
+            </>
+          )}
+        </div>
+      )}
     </nav>
   );
 };

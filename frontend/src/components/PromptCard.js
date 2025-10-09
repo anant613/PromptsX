@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Copy, Star, Heart, Eye, Zap, Sparkles } from 'lucide-react';
 
-const PromptCard = ({ prompt, onUpdate, onDelete }) => {
+const PromptCard = ({ prompt, onUpdate, onDelete, showActions = false }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -27,13 +27,13 @@ const PromptCard = ({ prompt, onUpdate, onDelete }) => {
 
   return (
     <div 
-      className="spline-prompt-card"
+      className="spline-prompt-card relative"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Card Header */}
       <div className="flex justify-between items-start mb-4">
-        <div className="flex-1">
+        <div className="flex-1 pr-4">
           <h3 className="text-lg font-semibold text-white mb-2 leading-tight">
             {prompt.title}
           </h3>
@@ -45,15 +45,24 @@ const PromptCard = ({ prompt, onUpdate, onDelete }) => {
         </div>
         
         {/* Category Badge */}
-        <div className="spline-badge">
+        <div className="spline-badge flex-shrink-0">
           <Zap className="w-3 h-3 mr-1" />
           {prompt.category}
         </div>
       </div>
 
+      {/* Description */}
+      {prompt.description && (
+        <div className="mb-3">
+          <p className="text-gray-400 text-sm">
+            {truncateText(prompt.description, 80)}
+          </p>
+        </div>
+      )}
+
       {/* Prompt Content */}
       <div className="spline-prompt-content mb-4">
-        <p className="text-gray-300 text-sm leading-relaxed">
+        <p className="text-gray-300 text-sm leading-relaxed font-mono">
           {truncateText(prompt.promptText)}
         </p>
       </div>
@@ -66,6 +75,11 @@ const PromptCard = ({ prompt, onUpdate, onDelete }) => {
               #{tag}
             </span>
           ))}
+          {prompt.tags.length > 3 && (
+            <span className="spline-tag opacity-60">
+              +{prompt.tags.length - 3} more
+            </span>
+          )}
         </div>
       )}
 
@@ -81,6 +95,11 @@ const PromptCard = ({ prompt, onUpdate, onDelete }) => {
             <Eye className="w-4 h-4" />
             <span>{prompt.views || 0}</span>
           </div>
+          {!prompt.isPublic && (
+            <div className="flex items-center space-x-1 text-yellow-400">
+              <span className="text-xs">🔒 Private</span>
+            </div>
+          )}
         </div>
 
         {/* Action Buttons */}

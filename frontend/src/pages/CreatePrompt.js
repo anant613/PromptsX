@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { promptAPI } from '../services/api';
+import { Sparkles, Tag, Type, FileText, Globe, Lock, Save, X } from 'lucide-react';
 
 const CreatePrompt = ({ setCurrentPage, editPrompt, setEditPrompt }) => {
   const { user } = useAuth();
@@ -54,16 +55,18 @@ const CreatePrompt = ({ setCurrentPage, editPrompt, setEditPrompt }) => {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            Please log in to create prompts
+      <div className="min-h-screen flex items-center justify-center create-prompt-container">
+        <div className="text-center spline-card">
+          <Sparkles className="w-16 h-16 text-purple-400 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-white mb-4">
+            Neural Access Required
           </h2>
+          <p className="text-gray-400 mb-6">Please log in to create prompts</p>
           <button
             onClick={() => setCurrentPage('login')}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md"
+            className="primary-button"
           >
-            Login
+            Access Neural Network
           </button>
         </div>
       </div>
@@ -71,43 +74,52 @@ const CreatePrompt = ({ setCurrentPage, editPrompt, setEditPrompt }) => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-3xl mx-auto px-4">
-        <div className="bg-white rounded-lg shadow-md p-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">
-            {editPrompt ? 'Edit Prompt' : 'Create New Prompt'}
-          </h2>
+    <div className="create-prompt-container">
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="create-prompt-card p-8">
+          <div className="text-center mb-8">
+            <h2 className="text-4xl font-bold text-gradient mb-4">
+              {editPrompt ? 'Neural Prompt Editor' : 'Create Neural Prompt'}
+            </h2>
+            <p className="text-gray-400">
+              Craft the perfect AI prompt for the community
+            </p>
+          </div>
 
           {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6">
+            <div className="bg-red-500/20 border border-red-400/50 text-red-300 px-4 py-3 rounded-xl backdrop-blur-sm mb-6">
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Title *
+            {/* Title */}
+            <div className="space-y-2">
+              <label className="form-label flex items-center">
+                <Type className="w-4 h-4 mr-2 text-purple-400" />
+                Prompt Title *
               </label>
               <input
                 type="text"
                 required
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="form-input w-full px-4 py-3"
                 placeholder="Enter a catchy title for your prompt"
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+            {/* Category */}
+            <div className="space-y-2">
+              <label className="form-label flex items-center">
+                <Tag className="w-4 h-4 mr-2 text-blue-400" />
                 Category *
               </label>
               <select
                 required
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="form-input w-full px-4 py-3"
               >
                 <option value="">Select a category</option>
                 {categories.map(category => (
@@ -116,69 +128,94 @@ const CreatePrompt = ({ setCurrentPage, editPrompt, setEditPrompt }) => {
               </select>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+            {/* Description */}
+            <div className="space-y-2">
+              <label className="form-label flex items-center">
+                <FileText className="w-4 h-4 mr-2 text-green-400" />
                 Description
               </label>
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                className="form-input w-full px-4 py-3 resize-none"
                 placeholder="Briefly describe what this prompt does"
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+            {/* Prompt Text */}
+            <div className="space-y-2">
+              <label className="form-label flex items-center">
+                <Sparkles className="w-4 h-4 mr-2 text-pink-400" />
                 Prompt Text *
               </label>
-              <textarea
-                required
-                value={formData.promptText}
-                onChange={(e) => setFormData({ ...formData, promptText: e.target.value })}
-                rows={8}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-mono"
-                placeholder="Enter your prompt here..."
-              />
-              <p className="text-sm text-gray-500 mt-1">
-                {formData.promptText.length}/5000 characters
-              </p>
+              <div className="relative">
+                <textarea
+                  required
+                  value={formData.promptText}
+                  onChange={(e) => setFormData({ ...formData, promptText: e.target.value })}
+                  rows={10}
+                  className="form-input w-full px-4 py-3 font-mono text-sm resize-none"
+                  placeholder="Enter your prompt here..."
+                />
+                <div className="absolute bottom-3 right-3 text-xs text-gray-500">
+                  {formData.promptText.length}/5000
+                </div>
+              </div>
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+            {/* Tags */}
+            <div className="space-y-2">
+              <label className="form-label flex items-center">
+                <Tag className="w-4 h-4 mr-2 text-cyan-400" />
                 Tags
               </label>
               <input
                 type="text"
                 value={formData.tags}
                 onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                placeholder="Enter tags separated by commas (e.g., creative, writing, marketing)"
+                className="form-input w-full px-4 py-3"
+                placeholder="creative, writing, marketing (comma separated)"
               />
             </div>
 
-            <div className="flex items-center">
+            {/* Public Toggle */}
+            <div className="flex items-center space-x-3 p-4 rounded-xl bg-gray-800/30 border border-gray-700/50">
               <input
                 type="checkbox"
                 id="isPublic"
                 checked={formData.isPublic}
                 onChange={(e) => setFormData({ ...formData, isPublic: e.target.checked })}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                className="w-5 h-5 text-purple-600 bg-gray-700 border-gray-600 rounded focus:ring-purple-500 focus:ring-2"
               />
-              <label htmlFor="isPublic" className="ml-2 block text-sm text-gray-900">
-                Make this prompt public
+              <label htmlFor="isPublic" className="flex items-center text-white cursor-pointer">
+                {formData.isPublic ? (
+                  <Globe className="w-4 h-4 mr-2 text-green-400" />
+                ) : (
+                  <Lock className="w-4 h-4 mr-2 text-red-400" />
+                )}
+                {formData.isPublic ? 'Public prompt' : 'Private prompt'}
               </label>
             </div>
 
-            <div className="flex space-x-4">
+            {/* Action Buttons */}
+            <div className="flex space-x-4 pt-6">
               <button
                 type="submit"
                 disabled={loading}
-                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-md font-medium disabled:opacity-50"
+                className="primary-button flex-1 flex items-center justify-center"
               >
-                {loading ? 'Saving...' : (editPrompt ? 'Update Prompt' : 'Create Prompt')}
+                {loading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    Processing...
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-5 h-5 mr-2" />
+                    {editPrompt ? 'Update Prompt' : 'Create Prompt'}
+                  </>
+                )}
               </button>
               <button
                 type="button"
@@ -186,8 +223,9 @@ const CreatePrompt = ({ setCurrentPage, editPrompt, setEditPrompt }) => {
                   setEditPrompt(null);
                   setCurrentPage('home');
                 }}
-                className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+                className="secondary-button flex items-center justify-center"
               >
+                <X className="w-5 h-5 mr-2" />
                 Cancel
               </button>
             </div>
